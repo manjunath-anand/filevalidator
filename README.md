@@ -18,3 +18,18 @@ Non-Functional criteria:
     • Performance and scalability
     • Project structure and general coding conventions
     • Demonstrated knowledge of Git (branching, commit messages, pull requests)
+
+
+Assumptions:
+
+    1) Schema file aus-capitals.json provided had "State/Territory" repeating. Removed the repeat
+    2) The tag files for invalid scenarios where not having correct file names . Created respective tag files while testing the scenarios
+    3) The program would be called per file by passing the file path, schema path and tag file path
+
+
+
+Features to be handled:
+
+    1) Output file name matching with what is specified in the scenarios
+    2) logger statements replacing println
+    3) More code coverage

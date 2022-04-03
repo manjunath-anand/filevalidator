@@ -34,7 +34,6 @@ class RecordCountValidator (
     println("expected records count "+expectedCount)
 
     val status = if(actualCount == expectedCount)  "0" else "1"
-    status
 
     println("Record count validation status is "+status)
     status
