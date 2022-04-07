@@ -1,11 +1,9 @@
 package org.anz.codechallenge.test;
 
 import org.anz.codechallenge.DataValidator;
-import org.anz.codechallenge.schema.Metadata;
-import org.anz.codechallenge.schema.Schema;
-import org.anz.codechallenge.schema.Tag;
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
+import org.anz.codechallenge.factory.FileContentFactory;
+import org.anz.codechallenge.filedetails.ContentParams;
+import org.anz.codechallenge.filedetails.FileContent;
 import org.apache.spark.sql.SparkSession;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -39,14 +37,11 @@ public class DataValidatorTest {
         String tag = getClass().getResource("/aus-capitals.tag").getPath();
         String output = getClass().getResource("/testoutput/sbe-1-1.csv").getPath();
 
-        Metadata inputMetadata = new Metadata(schema,data,tag,output);
+        ContentParams inputContentParams = new ContentParams(schema,data,tag,output);
 
-        Dataset<Row> datadf = sparkSession.read().format("csv").option("header","true").load(inputMetadata.getData());
+        FileContent fileContent = FileContentFactory.getFileContent(inputContentParams);
 
-        Schema file_schema = DataValidator.getFileSchema(inputMetadata);
-        Tag tagFile = DataValidator.getTagfile(inputMetadata);
-
-        String status = DataValidator.validateData(inputMetadata,file_schema,tagFile, datadf);
+        String status = DataValidator.validateData(fileContent);
         assert(status == "0");
     }
 }

@@ -1,13 +1,11 @@
 package org.anz.codechallenge.test.validators
 
-import com.google.gson.Gson
-import org.anz.codechallenge.schema.{Metadata, Schema, Tag}
-import org.anz.codechallenge.validators.PrimaryKeyValidator
+import org.anz.codechallenge.factory.FileContentFactory
+import org.anz.codechallenge.filedetails.ContentParams
+import org.anz.codechallenge.validators.{PrimaryKeyValidator}
 import org.apache.spark.sql.SparkSession
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.funsuite.AnyFunSuite
-
-import scala.io.Source
 
 class PrimaryKeyValidatorTest extends AnyFunSuite with BeforeAndAfterAll {
 
@@ -31,22 +29,12 @@ class PrimaryKeyValidatorTest extends AnyFunSuite with BeforeAndAfterAll {
     val tag = getClass.getResource("/aus-capitals.tag").getPath
     val output = getClass.getResource("/testoutput/sbe-1-1.csv").getPath
 
-    val inputMetadata = new Metadata(schema,data,tag,output)
+    val inputContentParams = new ContentParams(schema,data,tag,output)
 
-    val datadf = sparkSession.read.format("csv").option("header","true").load(inputMetadata.getData)
+    val fileContent = FileContentFactory.getFileContent(inputContentParams)
 
-    val schemaStr = Source.fromURL(getClass.getResource("/aus-capitals.json")).mkString
-    val tagFileStr = Source.fromURL(getClass.getResource("/aus-capitals.tag")).mkString
-
-    val gson = new Gson
-    val file_schema = gson.fromJson(schemaStr,classOf[Schema])
-
-    val tagArr = tagFileStr.split("\\|")
-    val tagFile = new Tag(tagArr(0),tagArr(1).toInt)
-
-
-    val recordCountValidator = new PrimaryKeyValidator(inputMetadata,file_schema,tagFile, datadf)
-    val status = recordCountValidator.validate()
+    val primaryKeyValidator = new PrimaryKeyValidator(fileContent)
+    val status = primaryKeyValidator.validate()
     assert(status === "0")
   }
 

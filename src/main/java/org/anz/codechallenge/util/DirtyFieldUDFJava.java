@@ -1,23 +1,15 @@
 package org.anz.codechallenge.util;
 
-import org.anz.codechallenge.schema.FileSchema;
-import org.anz.codechallenge.schema.Schema;
+import org.anz.codechallenge.schema.JSONSchema;
 import org.apache.spark.sql.Column;
-import org.apache.spark.sql.Row;
 import org.apache.spark.sql.api.java.UDF1;
-import scala.collection.Iterator;
 import scala.collection.mutable.Seq;
 
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+public class DirtyFieldUDFJava implements UDF1<Seq<Column>, String> {
 
-public class DirtyFieldUDF implements UDF1<Seq<Column>, String> {
+    private JSONSchema fileSchema;
 
-    private Schema fileSchema;
-
-    public DirtyFieldUDF(Schema fileSchema) {
+    public DirtyFieldUDFJava(JSONSchema fileSchema) {
         this.fileSchema = fileSchema;
     }
 

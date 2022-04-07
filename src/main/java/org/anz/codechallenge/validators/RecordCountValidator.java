@@ -1,37 +1,37 @@
 package org.anz.codechallenge.validators;
 
-import org.anz.codechallenge.schema.Metadata;
-import org.anz.codechallenge.schema.Schema;
-import org.anz.codechallenge.schema.Tag;
+import org.anz.codechallenge.filedetails.ContentParams;
+import org.anz.codechallenge.filedetails.FileContent;
+import org.anz.codechallenge.schema.JSONSchema;
+import org.anz.codechallenge.tags.DelimitedTag;
+import org.anz.codechallenge.tags.Tag;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
-public class RecordCountValidator implements Validator{
+public class RecordCountValidator implements Validator {
 
-    private Metadata inputMetadata;
-    private Schema file_schema;
-    private Tag tagFile;
-    private Dataset<Row> dataFrame;
+    private FileContent fileContent;
 
-    public RecordCountValidator(Metadata inputMetadata, Schema file_schema, Tag tagFile, Dataset<Row> dataFrame) {
-        this.inputMetadata = inputMetadata;
-        this.file_schema = file_schema;
-        this.tagFile = tagFile;
-        this.dataFrame = dataFrame;
+    public RecordCountValidator(FileContent fileContent) {
+        this.fileContent = fileContent;
     }
 
     @Override
     public String validate() {
         System.out.println("Performing recordcount validation");
 
-        long actualCount = dataFrame.count();
-        int expectedCount = tagFile.getRecord_count();
+        Tag tagFile = fileContent.getFileMetadata().getTagFile();
+        String status = "1";
 
-        System.out.println("input data records count "+actualCount);
-        System.out.println("expected records count "+expectedCount);
+        if(tagFile instanceof DelimitedTag) {
+            long actualCount = fileContent.getDataframe().count();
+            int expectedCount = ((DelimitedTag) fileContent.getFileMetadata().getTagFile()).getRecord_count();
 
-        String status = (actualCount == expectedCount) ? "0" : "1";
+            System.out.println("input data records count " + actualCount);
+            System.out.println("expected records count " + expectedCount);
 
+            status = (actualCount == expectedCount) ? "0" : "1";
+        }
         System.out.println("Record count validation status is "+status);
         return status;
     }

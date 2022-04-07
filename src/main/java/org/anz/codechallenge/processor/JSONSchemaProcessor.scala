@@ -1,9 +1,10 @@
-package org.anz.codechallenge.validators
+package org.anz.codechallenge.processor
 
 import java.time.format.DateTimeFormatter
 
-import org.anz.codechallenge.schema.{Metadata, Schema, Tag}
-import org.apache.spark.sql.{DataFrame, Row, SaveMode}
+import org.anz.codechallenge.filedetails.FileContent
+import org.anz.codechallenge.schema.{JSONSchema, Schema}
+import org.apache.spark.sql.{Row, SaveMode}
 import org.apache.spark.sql.functions.{struct, udf}
 
 import scala.collection.mutable.ListBuffer
@@ -11,29 +12,27 @@ import scala.util.Try
 import scala.util.control.Breaks.{break, breakable}
 import scala.collection.JavaConverters._
 
-class FieldValidator(
-                            inputMetadata: Metadata,
-                            file_schema: Schema,
-                            tagFile: Tag,
-                            dataFrame: DataFrame
-                          ) extends Validator {
+class JSONSchemaProcessor (fileContent: FileContent) extends FileProcessor[Schema]{
 
-  /**
-    * Perform field value validation
-    * @return - status of validation
-    */
-  def validate(): String = {
-    val status = "0"
-    println("Performing field value validation")
-    val file_schema = this.file_schema
 
-    /**
-      * Field value validation UDF. Performs below for each DataSet< Row>
-      * Mandatory field check
-      * Column type check
-      * Format check
-      */
+
+
+  override def checkIntegrity(fileContent: FileContent): Boolean = {
+    println("Performing checkIntegrity of JSONSchemaProcessor .. ")
+    val dataFrame = fileContent.getDataframe
+
     val fieldValidatefn: (Row => String) = (row: Row) => {
+      println("Performing field value validation")
+      val file_schema : JSONSchema = fileContent.getFileMetadata.getFileSchema.asInstanceOf[JSONSchema]
+
+
+      /**
+        * Field value validation UDF. Performs below for each DataSet< Row>
+        * Mandatory field check
+        * Column type check
+        * Format check
+        */
+
       var dirty = false
       breakable {
         for (fileSchema <- file_schema.getColumns().asScala.toArray) {
@@ -82,14 +81,14 @@ class FieldValidator(
     }
 
     val dirty_field_udf = udf(fieldValidatefn)
-
     val newdataFrame = dataFrame.withColumn("dirty_flag",dirty_field_udf(struct(dataFrame.columns.map(dataFrame(_)) : _*)))
 
     newdataFrame.show()
-    val outputFilePath = inputMetadata.getOutput
+    val outputFilePath = fileContent.getFileMetadata.getFileOutputPath
 
 
     newdataFrame.coalesce(1).write.mode(SaveMode.Overwrite).option("header", "true").csv(s"${outputFilePath}")
+    val status = true
     status
   }
 }
