@@ -41,7 +41,7 @@ class JSONSchemaProcessor (fileContent: FileContent) extends FileProcessor[Schem
 
       breakable {
         for (fileSchema <- file_schema.getColumns().asScala.toArray) {
-          val colValue = row.getAs(fileSchema.getName)
+          val colValue : String = row.getAs(fileSchema.getName)
           // Mandatory field check
           if (fileSchema.getMandatory != null && fileSchema.getMandatory.equals("true")) if (colValue == null || colValue.toString.trim.isBlank || colValue.toString.trim.isEmpty) {
             dirty = true
