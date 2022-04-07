@@ -9,6 +9,9 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
+/**
+ * Factory to create Filecontents
+ */
 public class FileContentFactory {
 
     public static FileContent getFileContent(ContentParams inputContentParams) {

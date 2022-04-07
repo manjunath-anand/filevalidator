@@ -5,6 +5,11 @@ import org.apache.spark.sql.Dataset;
 
 import java.io.Serializable;
 
+
+/**
+ * Represents file content in the form of dataset
+ * and file metadata containing tag and schema
+ */
 public class FileContent implements Serializable {
     private final FileMetadata fileMetadata;
     private final Dataset<Row> dataframe;

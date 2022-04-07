@@ -2,6 +2,9 @@ package org.anz.codechallenge.filedetails;
 
 import java.io.Serializable;
 
+/**
+ * Represents input argument details
+ */
 public class ContentParams implements Serializable {
     private String schemaPath;
     private String dataPath;

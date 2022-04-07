@@ -1,11 +1,14 @@
 package org.anz.codechallenge.filedetails;
 
-import org.anz.codechallenge.schema.FileSchema;
 import org.anz.codechallenge.schema.Schema;
 import org.anz.codechallenge.tags.Tag;
 
 import java.io.Serializable;
 
+/**
+ * Contains file metadata details including
+ * Schema and Tag file
+ */
 public class FileMetadata implements Serializable {
     private final String fileName;
     private final String filePath;

@@ -8,6 +8,9 @@ import org.anz.codechallenge.validators.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main class for performing data validation
+ */
 public class DataValidator {
     public static void main(String[] args) {
         if(args.length < 4) {
@@ -20,8 +23,10 @@ public class DataValidator {
         String tagPath = args[2];
         String outputPath = args[3];
 
+
         ContentParams inputContentParams = new ContentParams(schemaPath,dataPath,tagPath,outputPath);
 
+        // Model the file data and metadata containing tag and schema information
         FileContent fileContent = FileContentFactory.getFileContent(inputContentParams);
 
         // Register UDF

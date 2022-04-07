@@ -7,6 +7,9 @@ import org.anz.codechallenge.schema.JSONSchema;
 import org.anz.codechallenge.schema.Schema;
 import org.anz.codechallenge.util.FileUtil;
 
+/**
+ * Factory to create Schema
+ */
 public class SchemaFactory {
 
     public static Schema getSchema(ContentParams inputContentParams) {

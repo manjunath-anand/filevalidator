@@ -1,5 +1,8 @@
 package org.anz.codechallenge.tags;
 
+/**
+ * Class representing delimited tag files
+ */
 public class DelimitedTag implements Tag {
 
     public static final String DEFAULT_DELIMITER = "\\|";
@@ -41,10 +44,4 @@ public class DelimitedTag implements Tag {
     public boolean isEmpty() {
         return isEmpty;
     }
-
-    @Override
-    public String getTagPath() {
-        return tagPath;
-    }
-
 }

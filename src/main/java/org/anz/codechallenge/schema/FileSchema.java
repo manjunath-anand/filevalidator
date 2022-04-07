@@ -2,6 +2,10 @@ package org.anz.codechallenge.schema;
 
 import java.io.Serializable;
 
+/**
+ *  Represents individual json element in a
+ *  JSON schema file
+ */
 public class FileSchema implements Serializable {
     private String name;
     private String type;

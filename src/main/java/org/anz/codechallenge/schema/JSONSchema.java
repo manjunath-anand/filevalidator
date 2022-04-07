@@ -2,6 +2,10 @@ package org.anz.codechallenge.schema;
 
 import java.util.List;
 
+/**
+ *  Represents schema containing columns and primary keys
+ *  provided in the json format
+ */
 public class JSONSchema implements Schema {
     private List<FileSchema> columns;
     private List<String> primary_keys;

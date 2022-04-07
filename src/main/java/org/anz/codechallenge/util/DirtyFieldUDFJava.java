@@ -5,6 +5,9 @@ import org.apache.spark.sql.Column;
 import org.apache.spark.sql.api.java.UDF1;
 import scala.collection.mutable.Seq;
 
+/**
+ *  This class is for demo purpose
+ */
 public class DirtyFieldUDFJava implements UDF1<Seq<Column>, String> {
 
     private JSONSchema fileSchema;

@@ -1,11 +1,14 @@
 package org.anz.codechallenge.factory;
 
 import org.anz.codechallenge.filedetails.ContentParams;
-import org.anz.codechallenge.schema.EmptyTag;
+import org.anz.codechallenge.tags.EmptyTag;
 import org.anz.codechallenge.tags.DelimitedTag;
 import org.anz.codechallenge.tags.Tag;
 import org.anz.codechallenge.util.FileUtil;
 
+/**
+ * Factory to create Tag
+ */
 public class TagFactory {
     public static Tag getTag(ContentParams inputContentParams) {
         Tag tag = null;

@@ -1,7 +1,8 @@
 package org.anz.codechallenge.schema;
 
-
-
+/**
+ * Contains any empty schema processing logic
+ */
 public class EmptySchema implements Schema {
     private static transient Schema instance;
     private EmptySchema() {

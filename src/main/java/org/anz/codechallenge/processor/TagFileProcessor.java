@@ -8,6 +8,10 @@ import org.anz.codechallenge.tags.Tag;
 
 import javax.annotation.concurrent.ThreadSafe;
 
+/**
+ * Checks the integrity of file based on tag file
+ */
+
 @ThreadSafe
 public class TagFileProcessor implements FileProcessor<Tag> {
     private static transient TagFileProcessor instance;
@@ -22,9 +26,20 @@ public class TagFileProcessor implements FileProcessor<Tag> {
         return instance;
     };
 
+    /**
+     * Checks integrity of file in accordance with tag
+     * file if present. Currently checks include below
+     * - File name check
+     * - Record count check
+     * @param fileContent - file content representation
+     * @return
+     */
     @Override
     public boolean checkIntegrity(FileContent fileContent) {
         Tag tagFile = fileContent.getFileMetadata().getTagFile();
+        if(tagFile.isEmpty()) {
+            return true;
+        }
         boolean isValid = false;
         FileMetadata fileMetadata = fileContent.getFileMetadata();
 

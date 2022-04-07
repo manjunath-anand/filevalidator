@@ -1,7 +1,8 @@
-package org.anz.codechallenge.schema;
+package org.anz.codechallenge.tags;
 
-import org.anz.codechallenge.tags.Tag;
-
+/**
+ * Contains any empty tag processing logic
+ */
 public class EmptyTag implements Tag {
     private static transient Tag instance;
     private EmptyTag() {
@@ -18,15 +19,5 @@ public class EmptyTag implements Tag {
     @Override
     public boolean isEmpty() {
         return true;
-    }
-
-    @Override
-    public String getTagPath() {
-        return null;
-    }
-
-    @Override
-    public String getTagType() {
-        return null;
     }
 }
